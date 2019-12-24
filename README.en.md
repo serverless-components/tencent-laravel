@@ -1,4 +1,4 @@
-# Tencent Egg.js Serverless Component
+# Tencent Laravel Serverless Component
 
 [简体中文](./README.md) | English
 

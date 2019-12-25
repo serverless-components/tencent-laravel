@@ -31,13 +31,13 @@
     }
   },
   "lint-staged": {
-    "**/*.*": [
+    "**/*.{js,ts,tsx}": [
       "eslint --fix --ext .js,.ts,.tsx .",
-      "git add"
+      "git add ."
     ],
     "**/*.{css,html,js,json,md,yaml,yml}": [
-      "prettier -c",
-      "git add"
+      "npm run prettier:fix",
+      "git add ."
     ]
   },
   "standard-version": {

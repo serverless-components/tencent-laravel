@@ -11,7 +11,7 @@ const DEFAULTS = {
   exclude: ['.git/**', '.gitignore', '.serverless', '.DS_Store', 'storage/**', 'tests/**']
 }
 
-class TencentEgg extends Component {
+class TencentLaravel extends Component {
   getDefaultProtocol(protocols) {
     if (protocols.map((i) => i.toLowerCase()).includes('https')) {
       return 'https'
@@ -112,14 +112,17 @@ class TencentEgg extends Component {
   }
 
   async remove() {
+    this.context.status('Removing')
     const tencentCloudFunction = await this.load('@serverless/tencent-scf')
     const tencentApiGateway = await this.load('@serverless/tencent-apigateway')
 
     await tencentCloudFunction.remove()
     await tencentApiGateway.remove()
 
+    this.state = {}
+    await this.save()
     return {}
   }
 }
 
-module.exports = TencentEgg
+module.exports = TencentLaravel

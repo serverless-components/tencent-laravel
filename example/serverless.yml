@@ -1,4 +1,4 @@
-MyEgg:
+MyLaravel:
   component: ../
   inputs:
     region: ap-guangzhou

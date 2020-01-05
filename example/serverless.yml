@@ -1,5 +1,5 @@
 MyLaravel:
-  component: ../
+  component: '@serverless/tencent-laravel'
   inputs:
     region: ap-guangzhou
     functionName: laravel-function

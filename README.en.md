@@ -12,10 +12,10 @@
 
 1. [Prepare](#0-prepare)
 1. [Install](#1-install)
-2. [Create](#2-create)
-3. [Configure](#3-configure)
-4. [Deploy](#4-deploy)
-5. [Remove](#5-Remove)
+1. [Create](#2-create)
+1. [Configure](#3-configure)
+1. [Deploy](#4-deploy)
+1. [Remove](#5-Remove)
 
 ### 0. Prepare
 
@@ -89,9 +89,9 @@ TENCENT_SECRET_KEY=XXX
 # serverless.yml
 
 MyComponent:
-  component: "@serverless/tencent-laravel"
+  component: '@serverless/tencent-laravel'
   inputs:
-    region: ap-guangzhou 
+    region: ap-guangzhou
     functionName: laravel-function
     code: ./
     functionConf:
@@ -111,6 +111,8 @@ MyComponent:
 - [More Options](https://github.com/serverless-components/tencent-laravel/tree/master/docs/configure.md)
 
 ### 4. Deploy
+
+> Notice: **Before deploying, you should clear local run config cache, run `php artisan config:clear`.**
 
 ```shell
 $ sls --debug

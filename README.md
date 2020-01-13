@@ -1,6 +1,5 @@
 [![Serverless PHP Laravel Tencent Cloud](https://img.serverlesscloud.cn/20191226/1577347087676-website_%E9%95%BF.png)](http://serverless.com)
 
-
 # 腾讯云 Laravel Serverless Component
 
 简体中文 | [English](./README.en.md)
@@ -13,10 +12,9 @@
 
 0. [准备](#0-准备)
 1. [安装](#1-安装)
-2. [配置](#2-配置)
-3. [部署](#3-部署)
-4. [移除](#4-移除)
-
+1. [配置](#2-配置)
+1. [部署](#3-部署)
+1. [移除](#4-移除)
 
 ### 0. 准备
 
@@ -75,9 +73,9 @@ $ touch serverless.yml
 # serverless.yml
 
 MyComponent:
-  component: "@serverless/tencent-laravel"
+  component: '@serverless/tencent-laravel'
   inputs:
-    region: ap-guangzhou 
+    region: ap-guangzhou
     functionName: laravel-function
     code: ./
     functionConf:
@@ -97,6 +95,8 @@ MyComponent:
 - [更多配置](https://github.com/serverless-components/tencent-laravel/tree/master/docs/configure.md)
 
 ### 3. 部署
+
+> 注意：**在部署前，你需要先清理本地运行的配置缓存，执行 `php artisan config:clear` 即可。**
 
 如您的账号未 [登陆](https://cloud.tencent.com/login) 或 [注册](https://cloud.tencent.com/register) 腾讯云，您可以直接通过 `微信` 扫描命令行中的二维码进行授权登陆和注册。
 

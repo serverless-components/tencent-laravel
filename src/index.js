@@ -64,6 +64,7 @@ class TencentLaravel extends Component {
     const tencentCloudFunction = await this.load('@serverless/tencent-scf')
     const tencentApiGateway = await this.load('@serverless/tencent-apigateway')
 
+    inputs.fromClientRemark = inputs.fromClientRemark || 'tencent-laravel'
     const tencentCloudFunctionOutputs = await tencentCloudFunction(inputs)
     const apigwParam = {
       serviceName: inputs.serviceName,
@@ -94,6 +95,7 @@ class TencentLaravel extends Component {
       apigwParam.endpoints[0].auth = inputs.apigatewayConf.auth
     }
 
+    apigwParam.fromClientRemark = inputs.fromClientRemark || 'tencent-laravel'
     const tencentApiGatewayOutputs = await tencentApiGateway(apigwParam)
     const outputs = {
       region: inputs.region,
@@ -111,13 +113,16 @@ class TencentLaravel extends Component {
     return outputs
   }
 
-  async remove() {
+  async remove(inputs = {}) {
     this.context.status('Removing')
+    const removeInput = {
+      fromClientRemark: inputs.fromClientRemark || 'tencent-laravel'
+    }
     const tencentCloudFunction = await this.load('@serverless/tencent-scf')
     const tencentApiGateway = await this.load('@serverless/tencent-apigateway')
 
-    await tencentCloudFunction.remove()
-    await tencentApiGateway.remove()
+    await tencentCloudFunction.remove(removeInput)
+    await tencentApiGateway.remove(removeInput)
 
     this.state = {}
     await this.save()

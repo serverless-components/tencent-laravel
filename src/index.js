@@ -85,7 +85,8 @@ class TencentLaravel extends Component {
             functionName: tencentCloudFunctionOutputs.Name
           }
         }
-      ]
+      ],
+      customDomain: inputs.apigatewayConf.customDomain
     }
 
     if (inputs.apigatewayConf && inputs.apigatewayConf.auth) {
@@ -104,6 +105,9 @@ class TencentLaravel extends Component {
       url: `${this.getDefaultProtocol(tencentApiGatewayOutputs.protocols)}://${
         tencentApiGatewayOutputs.subDomain
       }/${tencentApiGatewayOutputs.environment}/`
+    }
+    if (tencentApiGatewayOutputs.customDomains) {
+      outputs.customDomains = tencentApiGatewayOutputs.customDomains
     }
 
     this.state = outputs

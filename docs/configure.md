@@ -23,6 +23,16 @@ laravel:
         subnetId: ''
         vpcId: ''
     apigatewayConf:
+      customDomain:
+        - domain: abc.com
+          certificateId: abcdefg
+          isDefaultMapping: 'FALSE'
+          pathMappingSet:
+            - path: /
+              environment: release
+          protocols:
+            - http
+            - https
       protocols:
         - http
         - https
@@ -77,12 +87,13 @@ Main param description
 
 ### apigatewayConf param description
 
-| Param       | Required/Optional | Description                                                                                              |
-| ----------- | :---------------: | :------------------------------------------------------------------------------------------------------- |
-| protocols   |     Optional      | Frontend request type of the service, such as HTTP, HTTPS, HTTP and HTTPS.                               |
-| environment |     Optional      | The name of the environment to be published. Three environments are supported: test, prepub and release. |
-| usagePlan   |     Optional      |                                                                                                          |
-| auth        |     Optional      |                                                                                                          |
+| Param        | Required/Optional | Description                                                                                              |
+| ------------ | :---------------: | :------------------------------------------------------------------------------------------------------- |
+| protocols    |     Optional      | Frontend request type of the service, such as HTTP, HTTPS, HTTP and HTTPS.                               |
+| environment  |     Optional      | The name of the environment to be published. Three environments are supported: test, prepub and release. |
+| usagePlan    |     Optional      |                                                                                                          |
+| auth         |     Optional      |                                                                                                          |
+| customDomain |     Optional      | Custom API Domain                                                                                        |
 
 - usagePlan param description
 
@@ -100,3 +111,20 @@ Main param description
 | serviceTimeout | Service timeout   |
 | secretName     | Secret name       |
 | secretIds      | Secret Id (Array) |
+
+### apigatewayConf.customDomain param description
+
+| Param            | Required/Optional | Default  | Description                                                                                               |
+| ---------------- | :---------------: | :------: | :-------------------------------------------------------------------------------------------------------- |
+| domain           |     Required      |          | custom domain to bind.                                                                                    |
+| certificateId    |     Optional      |          | Certificate for custom domain, if set https, it is required.                                              |
+| isDefaultMapping |     Optional      | `'TRUE'` | Whether using default path mapping. If want to customize path mapping, set to `FALSE`                     |
+| pathMappingSet   |     Optional      |   `[]`   | Custom path mapping, when `isDefaultMapping` is `FALSE`, it is required.                                  |
+| protocol         |     Optional      |          | Bind custom domain protocol type, such as HTTP, HTTPS, HTTP and HTTPS, default same as frontend protocols |
+
+- pathMappingSet
+
+| Param       | Description                   |
+| ----------- | :---------------------------- |
+| path        | Customize mapping path        |
+| environment | Customize mapping environment |

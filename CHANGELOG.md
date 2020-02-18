@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.2.0](https://github.com/serverless-components/tencent-laravel/compare/v0.1.4...v0.2.0) (2020-02-18)
+
+
+### Features
+
+* update dependency apigw for supporting custom domain ([6789314](https://github.com/serverless-components/tencent-laravel/commit/6789314e5ee63e522c38b3a2687d5b0d3d5ffd5e))
+
 ### [0.1.4](https://github.com/serverless-components/tencent-laravel/compare/v0.1.2...v0.1.4) (2020-02-04)
 
 

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.1](https://github.com/serverless-components/tencent-laravel/compare/v0.2.0...v0.2.1) (2020-02-27)
+
+
+### Bug Fixes
+
+* upgrade tencent-scf supporting upload bar ([2f39e57](https://github.com/serverless-components/tencent-laravel/commit/2f39e57515246475c969b4e0b4017ca41d2dc07e))
+
 ## [0.2.0](https://github.com/serverless-components/tencent-laravel/compare/v0.1.4...v0.2.0) (2020-02-18)
 
 

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.2](https://github.com/serverless-components/tencent-laravel/compare/v0.2.1...v0.2.2) (2020-03-12)
+
+
+### Bug Fixes
+
+* apigw namespace ([1e2d672](https://github.com/serverless-components/tencent-laravel/commit/1e2d67274ddf130bf618e5f37c868566573a0eb4))
+
 ### [0.2.1](https://github.com/serverless-components/tencent-laravel/compare/v0.2.0...v0.2.1) (2020-02-27)
 
 

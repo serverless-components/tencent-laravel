@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0](https://github.com/serverless-components/tencent-laravel/compare/v0.2.2...v1.0.0) (2020-03-17)
+
+
+### Features
+
+* refactor using framework ([d6b4513](https://github.com/serverless-components/tencent-laravel/commit/d6b451390e863db658b99f3f6665667c454ce21c))
+
 ### [0.2.2](https://github.com/serverless-components/tencent-laravel/compare/v0.2.1...v0.2.2) (2020-03-12)
 
 

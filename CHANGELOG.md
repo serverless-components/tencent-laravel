@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.1](https://github.com/serverless-components/tencent-laravel/compare/v1.0.0...v1.0.1) (2020-03-17)
+
+
+### Bug Fixes
+
+* remove unuse deps ([e72a706](https://github.com/serverless-components/tencent-laravel/commit/e72a7064238046107bba1218600f93179e73ec4e))
+
 ## [1.0.0](https://github.com/serverless-components/tencent-laravel/compare/v0.2.2...v1.0.0) (2020-03-17)
 
 

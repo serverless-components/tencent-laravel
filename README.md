@@ -5,7 +5,7 @@
 [![npm](https://img.shields.io/npm/v/%40serverless%2Ftencent-laravel)](http://www.npmtrends.com/%40serverless%2Ftencent-laravel)
 [![NPM downloads](http://img.shields.io/npm/dm/%40serverless%2Ftencent-laravel.svg?style=flat-square)](http://www.npmtrends.com/%40serverless%2Ftencent-laravel)
 
-简体中文 | [English](./README.en.md)
+简体中文 | [English](https://github.com/serverless-components/tencent-thinkphp/blob/master/README.en.md)
 
 ## 简介
 
@@ -25,7 +25,7 @@
 
 在使用此组件之前，你需要先自己初始化一个 `laravel` 项目
 
-```shell
+```bash
 composer create-project --prefer-dist laravel/laravel serverless-laravel
 ```
 
@@ -60,7 +60,7 @@ APP_STORAGE=/tmp
 
 通过 npm 全局安装 [serverless cli](https://github.com/serverless/serverless)
 
-```shell
+```bash
 $ npm install -g serverless
 ```
 
@@ -68,7 +68,7 @@ $ npm install -g serverless
 
 在项目根目录，创建 `serverless.yml` 文件，在其中进行如下配置
 
-```shell
+```bash
 $ touch serverless.yml
 ```
 
@@ -106,18 +106,67 @@ MyComponent:
 
 通过 `sls` 命令进行部署，并可以添加 `--debug` 参数查看部署过程中的信息
 
-```shell
+```bash
 $ sls --debug
+
+  DEBUG ─ Resolving the template's static variables.
+  DEBUG ─ Collecting components from the template.
+  DEBUG ─ Downloading any NPM components found in the template.
+  DEBUG ─ Analyzing the template's components dependencies.
+  DEBUG ─ Creating the template's components graph.
+  DEBUG ─ Syncing template state.
+  DEBUG ─ Executing the template's components graph.
+  DEBUG ─ Compressing function laravel-function file to /Users/yugasun/Desktop/Develop/serverless/tencent-laravel/example/.serverless/laravel-function.zip.
+  DEBUG ─ Compressed function laravel-function file successful
+  DEBUG ─ Uploading service package to cos[sls-cloudfunction-ap-guangzhou-code]. sls-cloudfunction-default-laravel-function-1584409722.zip
+  DEBUG ─ Uploaded package successful /Users/yugasun/Desktop/Develop/serverless/tencent-laravel/example/.serverless/laravel-function.zip
+  DEBUG ─ Creating function laravel-function
+  laravel-function [████████████████████████████████████████] 100% | ETA: 0s | Speed: 437.95k/s
+  DEBUG ─ Created function laravel-function successful
+  DEBUG ─ Setting tags for function laravel-function
+  DEBUG ─ Creating trigger for function laravel-function
+  DEBUG ─ Deployed function laravel-function successful
+  DEBUG ─ Starting API-Gateway deployment with name ap-guangzhou-apigateway in the ap-guangzhou region
+  DEBUG ─ Service with ID service-em7sgz40 created.
+  DEBUG ─ API with id api-lln5145m created.
+  DEBUG ─ Deploying service with id service-em7sgz40.
+  DEBUG ─ Deployment successful for the api named ap-guangzhou-apigateway in the ap-guangzhou region.
+
+  MyLaravel:
+    functionName:        laravel-function
+    functionOutputs:
+      ap-guangzhou:
+        Name:        laravel-function
+        Runtime:     Php7
+        Handler:     serverless-handler.handler
+        MemorySize:  128
+        Timeout:     10
+        Region:      ap-guangzhou
+        Namespace:   default
+        Description: This is a template function
+    region:              ap-guangzhou
+    apiGatewayServiceId: service-em7sgz40
+    url:                 https://service-em7sgz40-1251556596.gz.apigw.tencentcs.com/release/
+    cns:                 (empty array)
+
+  51s › MyLaravel › done
 ```
 
 > 注意: `sls` 是 `serverless` 命令的简写。
 
 ### 4. 移除
 
-通过以下命令移除部署的 API 网关
+通过以下命令移除部署的 Laravel 服务。
 
-```shell
+```bash
 $ sls remove --debug
+
+  DEBUG ─ Flushing template state and removing all components.
+  DEBUG ─ Removed function laravel-function successful
+  DEBUG ─ Removing any previously deployed API. api-lln5145m
+  DEBUG ─ Removing any previously deployed service. service-em7sgz40
+
+  14s › MyLaravel › done
 ```
 
 ### 账号配置（可选）

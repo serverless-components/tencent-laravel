@@ -46,10 +46,9 @@
     }
   },
   "dependencies": {
-    "@serverless/core": "^1.1.1",
-    "@serverless/tencent-apigateway": "^2.1.4",
-    "@serverless/tencent-scf": "^3.0.0",
-    "ext": "^1.4.0",
+    "@serverless/core": "^1.1.2",
+    "@serverless/tencent-framework": "^0.0.4",
+    "tencent-serverless-http": "^1.0.5",
     "type": "^2.0.0"
   },
   "devDependencies": {
@@ -63,8 +62,7 @@
     "husky": "^3.1.0",
     "lint-staged": "^9.5.0",
     "prettier": "^1.15.3",
-    "standard-version": "^7.0.1",
-    "tape": "^4.12.0"
+    "standard-version": "^7.0.1"
   },
   "directories": {
     "doc": "docs",

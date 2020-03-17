@@ -1,139 +1,47 @@
 const ensureIterable = require('type/iterable/ensure')
-const ensurePlainObject = require('type/plain-object/ensure')
 const ensureString = require('type/string/ensure')
-const random = require('ext/string/random')
 const path = require('path')
 const { Component } = require('@serverless/core')
 
 const DEFAULTS = {
   runtime: 'Php7',
-  handler: 'entry.handler',
+  handler: 'serverless-handler.handler',
   exclude: ['.git/**', '.gitignore', '.serverless', '.DS_Store', 'storage/**', 'tests/**']
 }
 
-class TencentLaravel extends Component {
-  getDefaultProtocol(protocols) {
-    if (protocols.map((i) => i.toLowerCase()).includes('https')) {
-      return 'https'
-    }
-    return 'http'
-  }
+const framework = 'laravel'
 
-  /**
-   * prepare create function inputs
-   * @param {object} inputs inputs
-   */
-  async prepareInputs(inputs = {}) {
-    inputs.name =
-      ensureString(inputs.functionName, { isOptional: true }) ||
-      this.state.functionName ||
-      `LaravelComponent_${random({ length: 6 })}`
-    inputs.codeUri = ensureString(inputs.code, { isOptional: true }) || process.cwd()
-    inputs.region = ensureString(inputs.region, { default: 'ap-guangzhou' })
-    inputs.namespace = ensureString(inputs.namespace, { default: 'default' })
-    inputs.include = ensureIterable(inputs.include, { default: [], ensureItem: ensureString })
-    inputs.exclude = ensureIterable(inputs.exclude, { default: [], ensureItem: ensureString })
-    inputs.apigatewayConf = ensurePlainObject(inputs.apigatewayConf, { default: {} })
-
-    inputs.include = ensureIterable(inputs.include, { default: [] })
-    inputs.include = inputs.include.concat([path.join(__dirname, 'shims')])
-    inputs.exclude = ensureIterable(inputs.exclude, { default: [] })
-    inputs.exclude = inputs.exclude.concat(DEFAULTS.exclude)
-
-    inputs.handler = ensureString(inputs.handler, { default: DEFAULTS.handler })
-    inputs.runtime = ensureString(inputs.runtime, { default: DEFAULTS.runtime })
-    inputs.apigatewayConf = ensurePlainObject(inputs.apigatewayConf, { default: {} })
-
-    if (inputs.functionConf) {
-      inputs.timeout = inputs.functionConf.timeout ? inputs.functionConf.timeout : 3
-      inputs.memorySize = inputs.functionConf.memorySize ? inputs.functionConf.memorySize : 128
-      inputs.environment = ensurePlainObject(inputs.apigatewayConf, { default: {} })
-      if (inputs.functionConf.environment) {
-        inputs.environment = inputs.functionConf.environment
-      }
-      if (inputs.functionConf.vpcConfig) {
-        inputs.vpcConfig = inputs.functionConf.vpcConfig
-      }
-    }
-
-    return inputs
-  }
-
+class TencentComponent extends Component {
   async default(inputs = {}) {
-    inputs = await this.prepareInputs(inputs)
+    inputs.include = ensureIterable(inputs.include, { default: [], ensureItem: ensureString })
+    inputs.include = inputs.include.concat([path.join(__dirname, 'shims')])
+    inputs.exclude = ensureIterable(inputs.exclude, { default: [], ensureItem: ensureString })
+    inputs.exclude.push('storage/**', 'tests/**')
 
-    const tencentCloudFunction = await this.load('@serverless/tencent-scf')
-    const tencentApiGateway = await this.load('@serverless/tencent-apigateway')
+    inputs.runtime = DEFAULTS.runtime
+    inputs.handler = DEFAULTS.handler
 
-    inputs.fromClientRemark = inputs.fromClientRemark || 'tencent-laravel'
-    const tencentCloudFunctionOutputs = await tencentCloudFunction(inputs)
-    const apigwParam = {
-      serviceName: inputs.serviceName,
-      description: 'Serverless Framework tencent-laravel Component',
-      serviceId: inputs.serviceId,
-      region: inputs.region,
-      protocols: inputs.apigatewayConf.protocols || ['http'],
-      environment:
-        inputs.apigatewayConf && inputs.apigatewayConf.environment
-          ? inputs.apigatewayConf.environment
-          : 'release',
-      endpoints: [
-        {
-          path: '/',
-          method: 'ANY',
-          function: {
-            isIntegratedResponse: true,
-            functionName: tencentCloudFunctionOutputs.Name,
-            functionNamespace: inputs.namespace
-          }
-        }
-      ],
-      customDomain: inputs.apigatewayConf.customDomain
-    }
+    const Framework = await this.load('@serverless/tencent-framework')
 
-    if (inputs.apigatewayConf && inputs.apigatewayConf.auth) {
-      apigwParam.endpoints[0].usagePlan = inputs.apigatewayConf.usagePlan
-    }
-    if (inputs.apigatewayConf && inputs.apigatewayConf.auth) {
-      apigwParam.endpoints[0].auth = inputs.apigatewayConf.auth
-    }
+    const framworkOutpus = await Framework({
+      ...inputs,
+      ...{
+        framework
+      }
+    })
 
-    apigwParam.fromClientRemark = inputs.fromClientRemark || 'tencent-laravel'
-    const tencentApiGatewayOutputs = await tencentApiGateway(apigwParam)
-    const outputs = {
-      region: inputs.region,
-      functionName: inputs.name,
-      apiGatewayServiceId: tencentApiGatewayOutputs.serviceId,
-      url: `${this.getDefaultProtocol(tencentApiGatewayOutputs.protocols)}://${
-        tencentApiGatewayOutputs.subDomain
-      }/${tencentApiGatewayOutputs.environment}/`
-    }
-    if (tencentApiGatewayOutputs.customDomains) {
-      outputs.customDomains = tencentApiGatewayOutputs.customDomains
-    }
-
-    this.state = outputs
-
+    this.state = framworkOutpus
     await this.save()
-
-    return outputs
+    return framworkOutpus
   }
 
   async remove(inputs = {}) {
-    this.context.status('Removing')
-    const removeInput = {
-      fromClientRemark: inputs.fromClientRemark || 'tencent-laravel'
-    }
-    const tencentCloudFunction = await this.load('@serverless/tencent-scf')
-    const tencentApiGateway = await this.load('@serverless/tencent-apigateway')
-
-    await tencentCloudFunction.remove(removeInput)
-    await tencentApiGateway.remove(removeInput)
-
+    const Framework = await this.load('@serverless/tencent-framework')
+    await Framework.remove(inputs)
     this.state = {}
     await this.save()
     return {}
   }
 }
 
-module.exports = TencentLaravel
+module.exports = TencentComponent

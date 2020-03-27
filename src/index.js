@@ -4,19 +4,21 @@ const path = require('path')
 const { Component } = require('@serverless/core')
 
 const DEFAULTS = {
+  framework: 'laravel',
   runtime: 'Php7',
   handler: 'serverless-handler.handler',
   exclude: ['.git/**', '.gitignore', '.serverless', '.DS_Store', 'storage/**', 'tests/**']
 }
 
-const framework = 'laravel'
-
 class TencentComponent extends Component {
   async default(inputs = {}) {
     inputs.include = ensureIterable(inputs.include, { default: [], ensureItem: ensureString })
     inputs.include = inputs.include.concat([path.join(__dirname, 'shims')])
-    inputs.exclude = ensureIterable(inputs.exclude, { default: [], ensureItem: ensureString })
-    inputs.exclude.push('storage/**', 'tests/**')
+    inputs.exclude = ensureIterable(inputs.exclude, {
+      default: [],
+      ensureItem: ensureString
+    })
+    inputs.exclude = inputs.exclude.concat(DEFAULTS.exclude)
 
     inputs.runtime = DEFAULTS.runtime
     inputs.handler = DEFAULTS.handler
@@ -26,7 +28,7 @@ class TencentComponent extends Component {
     const framworkOutpus = await Framework({
       ...inputs,
       ...{
-        framework
+        framework: DEFAULTS.framework
       }
     })
 

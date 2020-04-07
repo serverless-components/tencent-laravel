@@ -47,7 +47,7 @@
   },
   "dependencies": {
     "@serverless/core": "^1.1.2",
-    "@serverless/tencent-framework": "^0.0.6",
+    "@serverless/tencent-framework": "^0.1.1",
     "type": "^2.0.0"
   },
   "devDependencies": {

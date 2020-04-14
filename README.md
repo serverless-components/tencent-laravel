@@ -9,7 +9,7 @@
 
 ## 简介
 
-腾讯云 [Laravel](https://github.com/laravel/laravel) Serverless Component, 支持 Restful API 服务的部署。
+腾讯云 [Laravel](https://github.com/laravel/laravel) Serverless Component, 支持 `Laravel >= 6.0`。
 
 ## 目录
 

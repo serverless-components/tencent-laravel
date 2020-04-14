@@ -9,7 +9,7 @@
 
 ## Introduction
 
-[Laravel](https://github.com/laravel/laravel) Serverless Component for Tencent Cloud.
+[Laravel](https://github.com/laravel/laravel) Serverless Component for Tencent Cloud, support `Laravel >= 6.0`.
 
 ## Content
 

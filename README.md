@@ -36,7 +36,7 @@ composer create-project --prefer-dist laravel/laravel serverless-laravel
 由于云函数在执行时，只有 `/tmp` 可读写的，所以我们需要将 `laravel` 框架运行时的 `storage` 目录写到该目录下，为此需要修改 `bootstrap/app.php` 文件，在 `$app = new Illuminate\Foundation\Application` 后添加：
 
 ```php
-$app->useStoragePath($_ENV['APP_STORAGE'] ?? $app->storagePath());
+$app->useStoragePath(env('APP_STORAGE', '/tmp'));
 ```
 
 然后在跟目录下的 `.env` 文件中新增如下配置:
@@ -55,6 +55,8 @@ LOG_CHANNEL=stderr
 # 应用的 storage 目录必须为 /tmp
 APP_STORAGE=/tmp
 ```
+
+> 注意：对于 laravel@7.x 项目初始化不会自动生成 `APP_KEY` 在 `.env` 中，执行下 `php artisan key:generate` 就行。
 
 ### 1. 安装
 

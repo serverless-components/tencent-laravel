@@ -39,7 +39,7 @@ When cloud funtion running, only `/tmp` folder is writable, so we should change 
 Add this line in `bootstrap/app.php` after `$app = new Illuminate\Foundation\Application`:
 
 ```php
-$app->useStoragePath($_ENV['APP_STORAGE'] ?? $app->storagePath());
+$app->useStoragePath(env('APP_STORAGE', '/tmp'));
 ```
 
 We will also need to customize the location for compiled views, as well as customize a few variables in the .env file:
@@ -58,6 +58,8 @@ LOG_CHANNEL=stderr
 # app storage dir must be /tmp
 APP_STORAGE=/tmp
 ```
+
+> Notice: For Laravel@7.x, after initiating project, `APP_KEY` may not be generated in `.env`, just run `php artisan key:generate` to generate it.
 
 ### 1. Install
 

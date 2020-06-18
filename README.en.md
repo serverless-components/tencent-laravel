@@ -93,25 +93,21 @@ TENCENT_SECRET_KEY=XXX
 ```yml
 # serverless.yml
 
-MyComponent:
-  component: '@serverless/tencent-laravel'
-  inputs:
-    region: ap-guangzhou
-    functionName: laravel-function
-    code: ./
-    functionConf:
-      timeout: 10
-      memorySize: 128
-      environment:
-        variables:
-          TEST: vale
-      vpcConfig:
-        subnetId: ''
-        vpcId: ''
-    apigatewayConf:
-      protocols:
-        - https
-      environment: release
+component: laravel 
+name: laravelDemo
+org: orgDemo
+app: appDemo
+stage: dev
+
+inputs:
+  src: ./
+  region: ap-guangzhou
+  runtime: Php7
+  apigatewayConf:
+    protocols:
+      - http
+      - https
+    environment: release
 ```
 
 - [More Options](https://github.com/serverless-components/tencent-laravel/tree/master/docs/configure.md)
@@ -121,49 +117,7 @@ MyComponent:
 > Notice: **Before deploying, you should clear local run config cache, run `php artisan config:clear`.**
 
 ```bash
-$ sls --debug
-
-  DEBUG ─ Resolving the template's static variables.
-  DEBUG ─ Collecting components from the template.
-  DEBUG ─ Downloading any NPM components found in the template.
-  DEBUG ─ Analyzing the template's components dependencies.
-  DEBUG ─ Creating the template's components graph.
-  DEBUG ─ Syncing template state.
-  DEBUG ─ Executing the template's components graph.
-  DEBUG ─ Compressing function laravel-function file to /Users/yugasun/Desktop/Develop/serverless/tencent-laravel/example/.serverless/laravel-function.zip.
-  DEBUG ─ Compressed function laravel-function file successful
-  DEBUG ─ Uploading service package to cos[sls-cloudfunction-ap-guangzhou-code]. sls-cloudfunction-default-laravel-function-1584409722.zip
-  DEBUG ─ Uploaded package successful /Users/yugasun/Desktop/Develop/serverless/tencent-laravel/example/.serverless/laravel-function.zip
-  DEBUG ─ Creating function laravel-function
-  laravel-function [████████████████████████████████████████] 100% | ETA: 0s | Speed: 437.95k/s
-  DEBUG ─ Created function laravel-function successful
-  DEBUG ─ Setting tags for function laravel-function
-  DEBUG ─ Creating trigger for function laravel-function
-  DEBUG ─ Deployed function laravel-function successful
-  DEBUG ─ Starting API-Gateway deployment with name ap-guangzhou-apigateway in the ap-guangzhou region
-  DEBUG ─ Service with ID service-em7sgz40 created.
-  DEBUG ─ API with id api-lln5145m created.
-  DEBUG ─ Deploying service with id service-em7sgz40.
-  DEBUG ─ Deployment successful for the api named ap-guangzhou-apigateway in the ap-guangzhou region.
-
-  MyLaravel:
-    functionName:        laravel-function
-    functionOutputs:
-      ap-guangzhou:
-        Name:        laravel-function
-        Runtime:     Php7
-        Handler:     serverless-handler.handler
-        MemorySize:  128
-        Timeout:     10
-        Region:      ap-guangzhou
-        Namespace:   default
-        Description: This is a template function
-    region:              ap-guangzhou
-    apiGatewayServiceId: service-em7sgz40
-    url:                 https://service-em7sgz40-1251556596.gz.apigw.tencentcs.com/release/
-    cns:                 (empty array)
-
-  51s › MyLaravel › done
+$ sls deploy
 ```
 
 > Notice: `sls` is short for `serverless` command.
@@ -173,14 +127,7 @@ $ sls --debug
 ### 5. Remove
 
 ```bash
-$ sls remove --debug
-
-  DEBUG ─ Flushing template state and removing all components.
-  DEBUG ─ Removed function laravel-function successful
-  DEBUG ─ Removing any previously deployed API. api-lln5145m
-  DEBUG ─ Removing any previously deployed service. service-em7sgz40
-
-  14s › MyLaravel › done
+$ sls remove
 ```
 
 ### More Components

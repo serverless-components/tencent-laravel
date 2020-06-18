@@ -1,19 +1,15 @@
-MyLaravel:
-  component: '@serverless/tencent-laravel'
-  inputs:
-    region: ap-guangzhou
-    functionName: laravel-function
-    code: ./
-    functionConf:
-      timeout: 10
-      memorySize: 128
-      environment:
-        variables:
-          TEST: abc
-      vpcConfig:
-        subnetId: ''
-        vpcId: ''
-    apigatewayConf:
-      protocols:
-        - https
-      environment: release
+component: laravel@dev # (required) name of the component. In that case, it's flask.
+name: laravelDemo # (required) name of your flash component instance.
+org: orgDemo # (optional) serverless dashboard org. default is the first org you created during signup.
+app: appDemo # (optional) serverless dashboard app. default is the same as the name property.
+stage: dev # (optional) serverless dashboard stage. default is dev.
+
+inputs:
+  src: ./ # (optional) path to the source folder. default is a hello world app.
+  region: ap-guangzhou
+  runtime: Php7
+  apigatewayConf:
+    protocols:
+      - http
+      - https
+    environment: release

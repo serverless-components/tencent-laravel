@@ -1,0 +1,10 @@
+name: laravel
+version: dev
+author: Tencent Cloud, Inc
+org: Tencent Cloud, Inc
+description: Deploys a serverless Laravel application onto Tencent SCF and Tencent APIGateway.
+keywords: tencent, serverless, laravel
+repo: https://github.com/serverless-components/tencent-laravel
+readme: https://github.com/serverless-components/tencent-laravel/tree/v2/README.md
+license: MIT
+main: ./src

@@ -1,5 +1,6 @@
 const CONFIGS = {
-  templateUrl: 'https://serverless-templates-1300862921.cos.ap-beijing.myqcloud.com/flask-demo.zip',
+  templateUrl:
+    'https://serverless-templates-1300862921.cos.ap-beijing.myqcloud.com/laravel-demo.zip',
   compName: 'laravel',
   compFullname: 'Laravel',
   handler: 'sl_handler.handler',

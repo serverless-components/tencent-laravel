@@ -2,10 +2,7 @@
 
 # Tencent Laravel Serverless Component
 
-[![npm](https://img.shields.io/npm/v/%40serverless%2Ftencent-laravel)](http://www.npmtrends.com/%40serverless%2Ftencent-laravel)
-[![NPM downloads](http://img.shields.io/npm/dm/%40serverless%2Ftencent-laravel.svg?style=flat-square)](http://www.npmtrends.com/%40serverless%2Ftencent-laravel)
-
-[简体中文](https://github.com/serverless-components/tencent-thinkphp/blob/master/README.md) | English
+[简体中文](./README.md) | English
 
 ## Introduction
 
@@ -13,7 +10,7 @@
 
 ## Content
 
-1. [Prepare](#0-prepare)
+0. [Prepare](#0-prepare)
 1. [Install](#1-install)
 1. [Create](#2-create)
 1. [Configure](#3-configure)
@@ -59,8 +56,6 @@ LOG_CHANNEL=stderr
 APP_STORAGE=/tmp
 ```
 
-> Notice: For Laravel@7.x, after initiating project, `APP_KEY` may not be generated in `.env`, just run `php artisan key:generate` to generate it.
-
 ### 1. Install
 
 Install the Serverless Framework globally:
@@ -93,7 +88,7 @@ TENCENT_SECRET_KEY=XXX
 ```yml
 # serverless.yml
 
-component: laravel 
+component: laravel
 name: laravelDemo
 org: orgDemo
 app: appDemo
@@ -110,7 +105,7 @@ inputs:
     environment: release
 ```
 
-- [More Options](https://github.com/serverless-components/tencent-laravel/tree/master/docs/configure.md)
+- [More Options](./docs/configure.md)
 
 ### 4. Deploy
 

@@ -2,10 +2,7 @@
 
 # 腾讯云 Laravel Serverless Component
 
-[![npm](https://img.shields.io/npm/v/%40serverless%2Ftencent-laravel)](http://www.npmtrends.com/%40serverless%2Ftencent-laravel)
-[![NPM downloads](http://img.shields.io/npm/dm/%40serverless%2Ftencent-laravel.svg?style=flat-square)](http://www.npmtrends.com/%40serverless%2Ftencent-laravel)
-
-简体中文 | [English](https://github.com/serverless-components/tencent-thinkphp/blob/master/README.en.md)
+简体中文 | [English](./README.en.md)
 
 ## 简介
 
@@ -77,7 +74,7 @@ $ touch serverless.yml
 ```yml
 # serverless.yml
 
-component: laravel 
+component: laravel
 name: laravelDemo
 org: orgDemo
 app: appDemo
@@ -94,7 +91,7 @@ inputs:
     environment: release
 ```
 
-- [更多配置](https://github.com/serverless-components/tencent-laravel/tree/master/docs/configure.md)
+- [更多配置](./docs/configure.md)
 
 ### 3. 部署
 

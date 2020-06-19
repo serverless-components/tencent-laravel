@@ -5,7 +5,7 @@
 ```yml
 # serverless.yml
 
-component: laravel # (必选) 组件名称，在该实例中为flask
+component: laravel # (必选) 组件名称，在该实例中为laravel
 name: laravelDemo # (必选) 组件实例名称.
 org: orgDemo # (可选) 用于记录组织信息，默认值为您的腾讯云账户 appid，必须为字符串
 app: appDemo # (可选) 用于记录组织信息. 默认与name相同，必须为字符串

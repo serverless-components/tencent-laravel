@@ -36,7 +36,7 @@ composer create-project --prefer-dist laravel/laravel serverless-laravel
 $app->useStoragePath(env('APP_STORAGE', '/tmp'));
 ```
 
-然后在跟目录下的 `.env` 文件中新增如下配置:
+然后在根目录下的 `.env` 文件中新增如下配置:
 
 ```dotenv
 # 视图文件编译路径
@@ -53,7 +53,7 @@ LOG_CHANNEL=stderr
 APP_STORAGE=/tmp
 ```
 
-> 注意：对于 laravel@7.x 项目初始化不会自动生成 `APP_KEY` 在 `.env` 中，执行下 `php artisan key:generate` 就行。
+> 注意：对于 laravel@7.x 项目初始化不会自动生成 `APP_KEY` 在 `.env` 中，执行 `php artisan key:generate` 即可
 
 ### 1. 安装
 
@@ -133,4 +133,4 @@ TENCENT_SECRET_KEY=123
 
 ### 更多组件
 
-可以在 [Serverless Components](https://github.com/serverless/components) repo 中查询更多组件的信息。
+可以在 [Serverless Components](https://github.com/serverless/components/blob/master/README.cn.md) repo 中查询更多组件的信息。

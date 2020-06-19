@@ -53,8 +53,6 @@ LOG_CHANNEL=stderr
 APP_STORAGE=/tmp
 ```
 
-> 注意：对于 laravel@7.x 项目初始化不会自动生成 `APP_KEY` 在 `.env` 中，执行 `php artisan key:generate` 即可
-
 ### 1. 安装
 
 通过 npm 全局安装 [serverless cli](https://github.com/serverless/serverless)

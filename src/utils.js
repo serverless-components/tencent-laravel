@@ -289,6 +289,20 @@ const prepareInputs = async (instance, credentials, inputs = {}) => {
       }
     }
   ]
+  if (apigatewayConf.usagePlan) {
+    apigatewayConf.endpoints[0].usagePlan = {
+      usagePlanId: apigatewayConf.usagePlan.usagePlanId,
+      usagePlanName: apigatewayConf.usagePlan.usagePlanName,
+      usagePlanDesc: apigatewayConf.usagePlan.usagePlanDesc,
+      maxRequestNum: apigatewayConf.usagePlan.maxRequestNum
+    }
+  }
+  if (apigatewayConf.auth) {
+    apigatewayConf.endpoints[0].auth = {
+      secretName: apigatewayConf.auth.secretName,
+      secretIds: apigatewayConf.auth.secretIds
+    }
+  }
 
   // 对cns inputs进行标准化
   const tempCnsConf = {}

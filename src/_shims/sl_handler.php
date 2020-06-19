@@ -5,7 +5,7 @@ use Illuminate\Http\Request;
 
 define('LARAVEL_START', microtime(true));
 define('TEXT_REG', '#\.html.*|\.js.*|\.css.*|\.html.*#');
-define('BINARY_REG', '#\.gif.*|\.jpg.*|\.png.*|\.jepg.*|\.swf.*|\.bmp.*|\.ico.*#');
+define('BINARY_REG', '#\.ttf.*|\.woff.*|\.woff2.*|\.gif.*|\.jpg.*|\.png.*|\.jepg.*|\.swf.*|\.bmp.*|\.ico.*#');
 
 // auto make dir /tmp/storage/framework/views
 system("mkdir -p /tmp/storage/framework/views");

@@ -1,9 +1,10 @@
 const { generateId, getServerlessSdk } = require('./utils')
+const execSync = require('child_process').execSync
 const path = require('path')
 const axios = require('axios')
 
 // set enough timeout for deployment to finish
-jest.setTimeout(300000)
+jest.setTimeout(600000)
 
 // the yaml file we're testing against
 const instanceYaml = {
@@ -14,7 +15,7 @@ const instanceYaml = {
   stage: 'dev',
   inputs: {
     runtime: 'Php7',
-    region: 'ap-guangzhou',
+    region: 'ap-hongkong',
     apigatewayConf: { environment: 'test' }
   }
 }
@@ -41,6 +42,7 @@ it('should successfully deploy laravel app', async () => {
 
 it('should successfully update source code', async () => {
   const srcPath = path.join(__dirname, '../example')
+  execSync('npm install && composer install', { cwd: srcPath })
   instanceYaml.inputs.src = srcPath
 
   const instance = await sdk.deploy(instanceYaml, credentials)

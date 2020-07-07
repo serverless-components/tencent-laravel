@@ -9,13 +9,6 @@ const { TypeError } = require('tencent-component-toolkit/src/utils/error')
 const CONFIGS = require('./config')
 
 /*
- * Pauses execution for the provided miliseconds
- *
- * @param ${number} wait - number of miliseconds to wait
- */
-const sleep = async (wait) => new Promise((resolve) => setTimeout(() => resolve(), wait))
-
-/*
  * Generates a random id
  */
 const generateId = () =>
@@ -23,18 +16,28 @@ const generateId = () =>
     .toString(36)
     .substring(6)
 
-const getDirFiles = async (dirPath) => {
-  const targetPath = path.resolve(dirPath)
-  const files = fs.readdirSync(targetPath)
-  const temp = {}
-  files.forEach((file) => {
-    temp[file] = path.join(targetPath, file)
-  })
-  return temp
+const getType = (obj) => {
+  return Object.prototype.toString.call(obj).slice(8, -1)
+}
+
+const validateTraffic = (num) => {
+  if (getType(num) !== 'Number') {
+    throw new TypeError(
+      `PARAMETER_${CONFIGS.compName.toUpperCase()}_TRAFFIC`,
+      'traffic must be a number'
+    )
+  }
+  if (num < 0 || num > 1) {
+    throw new TypeError(
+      `PARAMETER_${CONFIGS.compName.toUpperCase()}_TRAFFIC`,
+      'traffic must be a number between 0 and 1'
+    )
+  }
+  return true
 }
 
 const getCodeZipPath = async (instance, inputs) => {
-  console.log(`Packaging ${CONFIGS.compNameFullname} application...`)
+  console.log(`Packaging ${CONFIGS.compFullname} application...`)
 
   // unzip source zip file
   let zipPath
@@ -43,7 +46,7 @@ const getCodeZipPath = async (instance, inputs) => {
     const downloadPath = `/tmp/${generateId()}`
     const filename = 'template'
 
-    console.log(`Installing Default ${CONFIGS.compNameFullname} App...`)
+    console.log(`Installing Default ${CONFIGS.compFullname} App...`)
     try {
       await download(CONFIGS.templateUrl, downloadPath, {
         filename: `${filename}.zip`
@@ -57,6 +60,16 @@ const getCodeZipPath = async (instance, inputs) => {
   }
 
   return zipPath
+}
+
+const getDirFiles = async (dirPath) => {
+  const targetPath = path.resolve(dirPath)
+  const files = fs.readdirSync(targetPath)
+  const temp = {}
+  files.forEach((file) => {
+    temp[file] = path.join(targetPath, file)
+  })
+  return temp
 }
 
 /**
@@ -235,8 +248,18 @@ const prepareInputs = async (instance, credentials, inputs = {}) => {
     fromClientRemark,
     layers: ensureIterable(tempFunctionConf.layers ? tempFunctionConf.layers : inputs.layers, {
       default: []
-    })
+    }),
+    publish: inputs.publish,
+    traffic: inputs.traffic,
+    lastVersion: instance.state.lastVersion
   }
+
+  // validate traffic
+  if (inputs.traffic !== undefined) {
+    validateTraffic(inputs.traffic)
+  }
+  functionConf.needSetTraffic = inputs.traffic !== undefined && functionConf.lastVersion
+
   functionConf.tags = ensureObject(tempFunctionConf.tags ? tempFunctionConf.tags : inputs.tag, {
     default: null
   })
@@ -267,7 +290,7 @@ const prepareInputs = async (instance, credentials, inputs = {}) => {
 
   // 对apigw inputs进行标准化
   const apigatewayConf = inputs.apigatewayConf ? inputs.apigatewayConf : {}
-  apigatewayConf.isDisabled = apigatewayConf.isDisabled === true
+  apigatewayConf.isDisabled = inputs.apigatewayConf === true
   apigatewayConf.fromClientRemark = fromClientRemark
   apigatewayConf.serviceName = inputs.serviceName
   apigatewayConf.description = `Serverless Framework Tencent-${capitalString(
@@ -286,7 +309,8 @@ const prepareInputs = async (instance, credentials, inputs = {}) => {
       function: {
         isIntegratedResponse: apigatewayConf.isIntegratedResponse === false ? false : true,
         functionName: functionConf.name,
-        functionNamespace: functionConf.namespace
+        functionNamespace: functionConf.namespace,
+        functionQualifier: functionConf.needSetTraffic ? '$DEFAULT' : '$LATEST'
       }
     }
   ]
@@ -371,7 +395,6 @@ const prepareInputs = async (instance, credentials, inputs = {}) => {
 
 module.exports = {
   generateId,
-  sleep,
   uploadCodeToCos,
   mergeJson,
   capitalString,

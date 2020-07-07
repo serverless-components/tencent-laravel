@@ -4,12 +4,12 @@ const CONFIGS = {
   compName: 'laravel',
   compFullname: 'Laravel',
   handler: 'sl_handler.handler',
-  runtime: 'PHP 7.2',
+  runtime: 'Php7',
   exclude: ['.git/**', '.gitignore', '.DS_Store'],
   timeout: 3,
   memorySize: 128,
   namespace: 'default',
-  description: 'Function created by serverless component'
+  description: 'Created by Serverless Component'
 }
 
 module.exports = CONFIGS

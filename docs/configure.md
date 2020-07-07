@@ -1,24 +1,23 @@
-# Configure document
+# 配置文档
 
-## Complete configuration
+## 全部配置
 
 ```yml
 # serverless.yml
 
-component: laravel # (必选) 组件名称，在该实例中为laravel
-name: laravelDemo # (必选) 组件实例名称.
+component: nuxtjs # (必选) 组件名称，在该实例中为nuxtjs
+name: nuxtjsDemo # 必选) 组件实例名称.
 org: orgDemo # (可选) 用于记录组织信息，默认值为您的腾讯云账户 appid，必须为字符串
 app: appDemo # (可选) 用于记录组织信息. 默认与name相同，必须为字符串
 stage: dev # (可选) 用于区分环境信息，默认值是 dev
 
 inputs:
   region: ap-guangzhou # 云函数所在区域
-  functionName: laravel-function # 云函数名称
+  functionName: nuxtjsDemo # 云函数名称
   serviceName: mytest # api网关服务名称
+  runtime: Nodejs10.15 # 运行环境
   serviceId: service-np1uloxw # api网关服务ID
-  runtime: Php7 # 运行环境
-  src: ./
-  # src: ./src # 第一种为string时，会打包src对应目录下的代码上传到默认cos上。
+  src: ./src # 第一种为string时，会打包src对应目录下的代码上传到默认cos上。
   # src:  # 第二种，部署src下的文件代码，并打包成zip上传到bucket上
   #   src: ./src  # 本地需要打包的文件目录
   #   bucket: bucket01 # bucket name，当前会默认在bucket name后增加 appid 后缀, 本例中为 bucket01-appid
@@ -31,6 +30,7 @@ inputs:
   layers:
     - name: layerName #  layer名称
       version: 1 #  版本
+  traffic: 0.9 # 配置默认流量中 $LATEST 版本比重：0 - 1
   functionConf: # 函数配置相关
     timeout: 10 # 超时时间，单位秒
     memorySize: 128 # 内存大小，单位MB
@@ -38,19 +38,19 @@ inputs:
       variables: #  环境变量数组
         TEST: vale
     vpcConfig: # 私有网络配置
-      subnetId: '' # 私有网络的Id
-      vpcId: '' # 子网ID
+      vpcId: '' # 私有网络的Id
+      subnetId: '' # 子网ID
   apigatewayConf: #  api网关配置
     isDisabled: false # 是否禁用自动创建 API 网关功能
     enableCORS: true #  允许跨域
     customDomains: # 自定义域名绑定
       - domain: abc.com # 待绑定的自定义的域名
         certificateId: abcdefg # 待绑定自定义域名的证书唯一 ID
-        # 自定义路径映射的路径。使用自定义映射时，可一次仅映射一个 path 到一个环境，也可映射多个 path 到多个环境。并且一旦使用自定义映射，原本的默认映射规则不再生效，只有自定义映射路径生效
+        # 自定义路径映射的路径。使用自定义映射时，可一次仅映射一个 path 到一个环境，也可映射多个 path 到多个环境。并且一旦使用自定义映射，原本的默认映射规则不再生效，只有自定义映射路径生效。
         pathMappingSet:
           - path: /
             environment: release
-        protocols: # 绑定自定义域名的协议类型，默认与服务的前端协议一致
+        protocols: # 绑定自定义域名的协议类型，默认与服务的前端协议一致。
           - http # 支持http协议
           - https # 支持https协议
     protocols:
@@ -73,30 +73,29 @@ inputs:
 
 主要的参数
 
-| 参数名称                             | 是否必选 |     默认值      | 描述                                                           |
-| ------------------------------------ | :------: | :-------------: | :------------------------------------------------------------- |
-| runtime                              |    否    |    Python3.6    | 执行环境, 目前支持: Python3.x                                  |
-| region                               |    否    |  ap-guangzhou   | 项目部署所在区域，默认广州区                                   |
-| functionName                         |    否    |                 | 云函数名称                                                     |
-| serviceName                          |    否    |                 | API 网关服务名称, 默认创建一个新的服务名称                     |
-| serviceId                            |    否    |                 | API 网关服务 ID,如果存在将使用这个 API 网关服务                |
-| src                                  |    否    | `process.cwd()` | 默认为当前目录, 如果是对象, 配置参数参考 [执行目录](#执行目录) |
-| layers                               |    否    |                 | 云函数绑定的 layer, 配置参数参考 [层配置](#层配置)             |
-| exclude                              |    否    |                 | 不包含的文件                                                   |
-| include                              |    否    |                 | 包含的文件, 如果是相对路径，是相对于 `serverless.yml`的路径    |
-| [functionConf](#函数配置)            |    否    |                 | 函数配置                                                       |
-| [apigatewayConf](#API-网关配置)      |    否    |                 | API 网关配置                                                   |
-| [cloudDNSConf](#DNS-配置)            |    否    |                 | DNS 配置                                                       |
-| [Region special config](#指定区配置) |    否    |                 | 指定区配置                                                     |
+| 参数名称                             | 是否必选 |     默认值      | 描述                                                                                                                                                                                                     |
+| ------------------------------------ | :------: | :-------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| runtime                              |    否    |      Php7       | 执行环境, 目前支持: Php7，Php5                                                                                                                                                                           |
+| region                               |    否    |  ap-guangzhou   | 项目部署所在区域，默认广州区                                                                                                                                                                             |
+| functionName                         |    否    |                 | 云函数名称                                                                                                                                                                                               |
+| serviceName                          |    否    |                 | API 网关服务名称, 默认创建一个新的服务名称                                                                                                                                                               |
+| serviceId                            |    否    |                 | API 网关服务 ID,如果存在将使用这个 API 网关服务                                                                                                                                                          |
+| src                                  |    否    | `process.cwd()` | 默认为当前目录, 如果是对象, 配置参数参考 [执行目录](#执行目录)                                                                                                                                           |
+| layers                               |    否    |                 | 云函数绑定的 layer, 配置参数参考 [层配置](#层配置)                                                                                                                                                       |
+| traffic                              |    否    |        1        | 配置默认流量中 `$LATEST` 版本比重，取值范围：0 ~ 1，比如 80%，可配置成 0.8。注意如果配置灰度流量，需要配置对应的 API 网关触发器的 endpoints 的 `function.functionQualifier` 参数为 `$DEFAULT` (默认流量) |
+| [functionConf](#函数配置)            |    否    |                 | 函数配置                                                                                                                                                                                                 |
+| [apigatewayConf](#API-网关配置)      |    否    |                 | API 网关配置                                                                                                                                                                                             |
+| [cloudDNSConf](#DNS-配置)            |    否    |                 | DNS 配置                                                                                                                                                                                                 |
+| [Region special config](#指定区配置) |    否    |                 | 指定区配置                                                                                                                                                                                               |
 
 ## 执行目录
 
-| 参数名称 | 是否必选 | 类型            | 默认值 | 描述                                                                                                                                                                                |
-| -------- | -------- | --------------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| src      | 否       | String          |        | 代码路径。与 object 不能同时存在。                                                                                                                                                  |
-| exclude  | 否       | Array of String |        | 不包含的文件或路径, 遵守 [glob 语法](https://github.com/isaacs/node-glob)                                                                                                           |
-| bucket   | 否       | String          |        | bucket 名称。如果配置了 src，表示部署 src 的代码并压缩成 zip 后上传到 bucket-appid 对应的存储桶中；如果配置了 object,表示获取 bucket-appid 对应存储桶中 object 对应的代码进行部署。 |
-| object   | 否       | String          |        | 部署的代码在存储桶中的路径。                                                                                                                                                        |  |
+| 参数名称 | 是否必选 |      类型       | 默认值 | 描述                                                                                                                                                                                 |
+| -------- | :------: | :-------------: | :----: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| src      |    否    |     String      |        | 代码路径。与 object 不能同时存在。                                                                                                                                                   |
+| exclude  |    否    | Array of String |        | 不包含的文件或路径, 遵守 [glob 语法](https://github.com/isaacs/node-glob)                                                                                                            |
+| bucket   |    否    |     String      |        | bucket 名称。如果配置了 src，表示部署 src 的代码并压缩成 zip 后上传到 bucket-appid 对应的存储桶中；如果配置了 object，表示获取 bucket-appid 对应存储桶中 object 对应的代码进行部署。 |
+| object   |    否    |     String      |        | 部署的代码在存储桶中的路径。                                                                                                                                                         |
 
 ## 层配置
 

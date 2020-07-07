@@ -1,8 +1,8 @@
-component: laravel@dev # (required) name of the component. In that case, it's laravel.
-name: laravelDemo # (required) name of your flash component instance.
-org: orgDemo # (optional) serverless dashboard org. default is the first org you created during signup.
-app: appDemo # (optional) serverless dashboard app. default is the same as the name property.
-stage: dev # (optional) serverless dashboard stage. default is dev.
+component: laravel
+name: laravelDemo
+org: orgDemo
+app: appDemo
+stage: dev
 
 inputs:
   src: ./ # (optional) path to the source folder. default is a hello world app.

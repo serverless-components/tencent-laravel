@@ -8,3 +8,4 @@ repo: https://github.com/serverless-components/tencent-laravel
 readme: https://github.com/serverless-components/tencent-laravel/tree/master/README.md
 license: MIT
 main: ./src
+webDeployable: true

@@ -2,7 +2,7 @@ name: laravel
 version: 0.0.2
 author: Tencent Cloud, Inc
 org: Tencent Cloud, Inc
-description: Deploy a serverless Laravel application onto Tencent SCF and APIGateway.
+description: Deploy a serverless Laravel application on Tencent SCF and API Gateway.
 keywords: tencent, serverless, laravel
 repo: https://github.com/serverless-components/tencent-laravel
 readme: https://github.com/serverless-components/tencent-laravel/tree/master/README.md

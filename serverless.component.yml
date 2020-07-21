@@ -1,5 +1,5 @@
 name: laravel
-version: 0.0.2
+version: 0.0.3
 author: Tencent Cloud, Inc
 org: Tencent Cloud, Inc
 description: Deploy a serverless Laravel application on Tencent SCF and API Gateway.

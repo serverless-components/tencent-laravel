@@ -65,13 +65,20 @@ function handler($event, $context)
 
     // init data
     $data = !empty($req) ? json_decode($req, true) : [];
-
+    // 实际运行时$event->path不包含url参数，在此处补全
+    if($event->queryString){
+        $data = array_merge($data, json_decode(json_encode($event->queryString),true));
+    }
+  
     // execute laravel app request, get response
     $kernel = $app->make(Kernel::class);
     $request = Request::create($path, $event->httpMethod, $data, [], [], $headers);
     $response = $kernel->handle(
         $request
     );
+  
+    // 支持teminate中间件
+    $kernel->terminate($request, $response);
 
     // init content
     $body = $response->getContent();
@@ -79,10 +86,8 @@ function handler($event, $context)
 
     return [
         'isBase64Encoded' => false,
-        'statusCode' => 200,
-        'headers' => [
-            'Content-Type' => $contentType
-        ],
+        'statusCode' => $response->getStatusCode(), // 返回$response中的HTTP状态码
+        'headers' => $response->headers->all(), // 返回$response中的header
         'body' => $body
     ];
 }

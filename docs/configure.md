@@ -5,17 +5,17 @@
 ```yml
 # serverless.yml
 
-component: nuxtjs # (必选) 组件名称，在该实例中为nuxtjs
-name: nuxtjsDemo # 必选) 组件实例名称.
+component: laravel # (必选) 组件名称，在该实例中为laravel
+name: laravelDemo # 必选) 组件实例名称.
 org: orgDemo # (可选) 用于记录组织信息，默认值为您的腾讯云账户 appid，必须为字符串
 app: appDemo # (可选) 用于记录组织信息. 默认与name相同，必须为字符串
 stage: dev # (可选) 用于区分环境信息，默认值是 dev
 
 inputs:
   region: ap-guangzhou # 云函数所在区域
-  functionName: nuxtjsDemo # 云函数名称
+  functionName: laravelDemo # 云函数名称
   serviceName: mytest # api网关服务名称
-  runtime: Nodejs10.15 # 运行环境
+  runtime: Php7 # 运行环境
   serviceId: service-np1uloxw # api网关服务ID
   src: ./src # 第一种为string时，会打包src对应目录下的代码上传到默认cos上。
   # src:  # 第二种，部署src下的文件代码，并打包成zip上传到bucket上

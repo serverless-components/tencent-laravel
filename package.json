@@ -1,7 +1,6 @@
 {
   "name": "@serverless/laravel",
   "description": "Tencent Cloud Laravel Serverless Component",
-  "version": "0.0.5",
   "main": "src/serverless.js",
   "publishConfig": {
     "access": "public"

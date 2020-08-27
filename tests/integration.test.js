@@ -10,7 +10,7 @@ jest.setTimeout(600000)
 const instanceYaml = {
   org: 'orgDemo',
   app: 'appDemo',
-  component: 'laravel@dev',
+  component: 'laravel',
   name: `laravel-integration-tests-${generateId()}`,
   stage: 'dev',
   inputs: {

@@ -1,3 +1,11 @@
+## [0.0.6](https://github.com/serverless-components/tencent-laravel/compare/v0.0.5...v0.0.6) (2020-09-02)
+
+
+### Bug Fixes
+
+* support cfs config ([1af615b](https://github.com/serverless-components/tencent-laravel/commit/1af615bf4bf6950c862387b25f414f8d14cc1fbe))
+* update tencnet-component-toolkit for api mark ([b5de551](https://github.com/serverless-components/tencent-laravel/commit/b5de551fe3fcddfc7021f01f7b0563c0b2cc9669))
+
 ## [0.0.5](https://github.com/serverless-components/tencent-laravel/compare/v0.0.4...v0.0.5) (2020-08-26)
 
 

@@ -1,11 +1,11 @@
 name: laravel
-version: 0.0.7
-author: Tencent Cloud, Inc
-org: Tencent Cloud, Inc
+version: 0.0.8
+author: 'Tencent Cloud, Inc'
+org: 'Tencent Cloud, Inc'
 description: Deploy a serverless Laravel application on Tencent SCF and API Gateway.
-keywords: tencent, serverless, laravel
-repo: https://github.com/serverless-components/tencent-laravel
-readme: https://github.com/serverless-components/tencent-laravel/tree/master/README.md
+keywords: 'tencent, serverless, laravel'
+repo: 'https://github.com/serverless-components/tencent-laravel'
+readme: 'https://github.com/serverless-components/tencent-laravel/tree/master/README.md'
 license: MIT
 main: ./src
 webDeployable: true

@@ -1,3 +1,10 @@
+## [0.0.7](https://github.com/serverless-components/tencent-laravel/compare/v0.0.6...v0.0.7) (2020-09-04)
+
+
+### Bug Fixes
+
+* update deps ([665a6cd](https://github.com/serverless-components/tencent-laravel/commit/665a6cde0b0bf5df90b5d84eafa28ff9e37339aa))
+
 ## [0.0.6](https://github.com/serverless-components/tencent-laravel/compare/v0.0.5...v0.0.6) (2020-09-02)
 
 

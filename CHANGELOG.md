@@ -1,3 +1,10 @@
+## [0.0.8](https://github.com/serverless-components/tencent-laravel/compare/v0.0.7...v0.0.8) (2020-09-07)
+
+
+### Bug Fixes
+
+* update deploy flow for multi region ([b63c58e](https://github.com/serverless-components/tencent-laravel/commit/b63c58e6ba06597cd18dee4e963404f28b062ba3))
+
 ## [0.0.7](https://github.com/serverless-components/tencent-laravel/compare/v0.0.6...v0.0.7) (2020-09-04)
 
 

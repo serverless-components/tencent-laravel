@@ -1,6 +1,6 @@
 [![Serverless PHP Laravel Tencent Cloud](https://img.serverlesscloud.cn/20191226/1577347087676-website_%E9%95%BF.png)](http://serverless.com)
 
-[![Build Status](https://github.com/serverless-components/tencent-laravel/workflows/Test/badge.svg?branch=master)](https://github.com/serverless-components/tencent-laravel/actions?query=workflow:Test)
+[![Build Status](https://github.com/serverless-components/tencent-laravel/workflows/Test/badge.svg)](https://github.com/serverless-components/tencent-laravel/actions?query=workflow:Test)
 
 <br/>
 

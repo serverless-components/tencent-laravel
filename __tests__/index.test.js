@@ -1,16 +1,10 @@
-const { generateId, getServerlessSdk } = require('./utils')
-const execSync = require('child_process').execSync
-const path = require('path')
+const { generateId, getServerlessSdk } = require('./lib/utils')
 const axios = require('axios')
 
-// set enough timeout for deployment to finish
-jest.setTimeout(600000)
-
-// the yaml file we're testing against
 const instanceYaml = {
   org: 'orgDemo',
   app: 'appDemo',
-  component: 'laravel',
+  component: 'laravel@dev',
   name: `laravel-integration-tests-${generateId()}`,
   stage: 'dev',
   inputs: {
@@ -20,16 +14,17 @@ const instanceYaml = {
   }
 }
 
-// get credentials from process.env but need to init empty credentials object
 const credentials = {
-  tencent: {}
+  tencent: {
+    SecretId: process.env.TENCENT_SECRET_ID,
+    SecretKey: process.env.TENCENT_SECRET_KEY
+  }
 }
 
-// get serverless construct sdk
 const sdk = getServerlessSdk(instanceYaml.org)
 
-it('should successfully deploy laravel app', async () => {
-  const instance = await sdk.deploy(instanceYaml, { tencent: {} })
+it('should deploy success', async () => {
+  const instance = await sdk.deploy(instanceYaml, credentials)
 
   expect(instance).toBeDefined()
   expect(instance.instanceName).toEqual(instanceYaml.name)
@@ -44,7 +39,7 @@ it('should successfully deploy laravel app', async () => {
   expect(response.data.includes('Laravel')).toBeTruthy()
 })
 
-it('should successfully remove laravel app', async () => {
+it('should remove success', async () => {
   await sdk.remove(instanceYaml, credentials)
   result = await sdk.getInstance(
     instanceYaml.org,

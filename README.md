@@ -1,5 +1,7 @@
 [![Serverless PHP Laravel Tencent Cloud](https://img.serverlesscloud.cn/20191226/1577347087676-website_%E9%95%BF.png)](http://serverless.com)
 
+[![Build Status](https://github.com/serverless-components/tencent-laravel/workflows/Test/badge.svg?branch=master)](https://github.com/serverless-components/tencent-laravel/actions?query=workflow:Test)
+
 <br/>
 
 腾讯云 [Laravel](https://github.com/laravel/laravel) Serverless Component, 支持 `Laravel >= 6.0`。

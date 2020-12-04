@@ -1,3 +1,15 @@
+# [0.1.0](https://github.com/serverless-components/tencent-laravel/compare/v0.0.8...v0.1.0) (2020-12-04)
+
+
+### Bug Fixes
+
+* update deps ([82d8696](https://github.com/serverless-components/tencent-laravel/commit/82d8696e0b4446414f81cd398646b4f9410d602c))
+
+
+### Features
+
+* support no migration deploy ([9670f55](https://github.com/serverless-components/tencent-laravel/commit/9670f55e521b15886297b99d8d89d5fe10a90cac))
+
 ## [0.0.8](https://github.com/serverless-components/tencent-laravel/compare/v0.0.7...v0.0.8) (2020-09-07)
 
 

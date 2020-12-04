@@ -10,7 +10,8 @@ const CONFIGS = {
   memorySize: 128,
   namespace: 'default',
   description: 'Created by Serverless Component',
-  envs: {
+  defaultEnvs: {
+    SERVERLESS: '1',
     VIEW_COMPILED_PATH: '/tmp/storage/framework/views',
     SESSION_DRIVER: 'array',
     LOG_CHANNEL: 'stderr',

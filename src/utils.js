@@ -179,7 +179,11 @@ const uploadCodeToCos = async (instance, appId, credentials, inputs, region) => 
 
 const prepareInputs = async (instance, credentials, inputs = {}) => {
   // 对function inputs进行标准化
-  const tempFunctionConf = inputs.functionConf ? inputs.functionConf : {}
+  const tempFunctionConf = inputs.functionConf
+    ? inputs.functionConf
+    : inputs.functionConfig
+    ? inputs.functionConfig
+    : {}
   const fromClientRemark = `tencent-${CONFIGS.compName}`
   const regionList = inputs.region
     ? typeof inputs.region == 'string'
@@ -190,7 +194,7 @@ const prepareInputs = async (instance, credentials, inputs = {}) => {
   // chenck state function name
   const stateFunctionName =
     instance.state[regionList[0]] && instance.state[regionList[0]].functionName
-  const functionConf = {
+  const functionConf = Object.assign(tempFunctionConf, {
     code: {
       src: inputs.src,
       bucket: inputs.srcOriginal && inputs.srcOriginal.bucket,
@@ -230,14 +234,12 @@ const prepareInputs = async (instance, credentials, inputs = {}) => {
     publish: inputs.publish,
     traffic: inputs.traffic,
     lastVersion: instance.state.lastVersion,
-    eip: tempFunctionConf.eip === true,
-    l5Enable: tempFunctionConf.l5Enable === true,
     timeout: tempFunctionConf.timeout ? tempFunctionConf.timeout : CONFIGS.timeout,
     memorySize: tempFunctionConf.memorySize ? tempFunctionConf.memorySize : CONFIGS.memorySize,
     tags: ensureObject(tempFunctionConf.tags ? tempFunctionConf.tags : inputs.tag, {
       default: null
     })
-  }
+  })
 
   // validate traffic
   if (inputs.traffic !== undefined) {
@@ -247,53 +249,54 @@ const prepareInputs = async (instance, credentials, inputs = {}) => {
 
   if (tempFunctionConf.environment) {
     functionConf.environment = tempFunctionConf.environment
-    functionConf.environment.variables = functionConf.environment.variables || {}
-    functionConf.environment.variables.SERVERLESS = '1'
-    functionConf.environment.variables.VIEW_COMPILED_PATH = CONFIGS.envs.VIEW_COMPILED_PATH
-    functionConf.environment.variables.SESSION_DRIVER = CONFIGS.envs.SESSION_DRIVER
-    functionConf.environment.variables.LOG_CHANNEL = CONFIGS.envs.LOG_CHANNEL
-    functionConf.environment.variables.APP_STORAGE = CONFIGS.envs.APP_STORAGE
+    functionConf.environment.variables = {
+      ...(functionConf.environment.variables || {}),
+      ...CONFIGS.defaultEnvs
+    }
   } else {
     functionConf.environment = {
-      variables: {
-        SERVERLESS: '1',
-        VIEW_COMPILED_PATH: CONFIGS.envs.VIEW_COMPILED_PATH,
-        SESSION_DRIVER: CONFIGS.envs.SESSION_DRIVER,
-        LOG_CHANNEL: CONFIGS.envs.LOG_CHANNEL,
-        APP_STORAGE: CONFIGS.envs.APP_STORAGE
-      }
+      variables: CONFIGS.defaultEnvs
     }
   }
 
   if (tempFunctionConf.vpcConfig) {
-    functionConf.vpcConfig = inputs.functionConf.vpcConfig
+    functionConf.vpcConfig = tempFunctionConf.vpcConfig
   }
 
   // 对apigw inputs进行标准化
-  const tempApigwConf = inputs.apigatewayConf ? inputs.apigatewayConf : {}
-  const apigatewayConf = {
-    serviceId: inputs.serviceId,
+  const tempApigwConf = inputs.apigatewayConf
+    ? inputs.apigatewayConf
+    : inputs.apigwConfig
+    ? inputs.apigwConfig
+    : {}
+  const apigatewayConf = Object.assign(tempApigwConf, {
+    serviceId: inputs.serviceId || tempApigwConf.serviceId,
     region: regionList,
     isDisabled: tempApigwConf.isDisabled === true,
     fromClientRemark: fromClientRemark,
-    serviceName: inputs.serviceName || getDefaultServiceName(instance),
-    description: getDefaultServiceDescription(instance),
+    serviceName: inputs.serviceName || tempApigwConf.serviceName || getDefaultServiceName(instance),
+    serviceDesc: tempApigwConf.serviceDesc || getDefaultServiceDescription(instance),
     protocols: tempApigwConf.protocols || ['http'],
     environment: tempApigwConf.environment ? tempApigwConf.environment : 'release',
-    endpoints: [
+    customDomains: tempApigwConf.customDomains || []
+  })
+  if (!apigatewayConf.endpoints) {
+    apigatewayConf.endpoints = [
       {
-        path: '/',
+        path: tempApigwConf.path || '/',
         enableCORS: tempApigwConf.enableCORS,
         serviceTimeout: tempApigwConf.serviceTimeout,
         method: 'ANY',
+        apiName: tempApigwConf.apiName || 'index',
         function: {
           isIntegratedResponse: true,
           functionName: functionConf.name,
-          functionNamespace: functionConf.namespace
+          functionNamespace: functionConf.namespace,
+          functionQualifier:
+            (tempApigwConf.function && tempApigwConf.function.functionQualifier) || '$DEFAULT'
         }
       }
-    ],
-    customDomains: tempApigwConf.customDomains || []
+    ]
   }
   if (tempApigwConf.usagePlan) {
     apigatewayConf.endpoints[0].usagePlan = {

@@ -16,17 +16,12 @@ inputs:
   functionName: laravelDemo # 云函数名称
   serviceName: mytest # api网关服务名称
   runtime: Php7 # 运行环境
-  serviceId: service-np1uloxw # api网关服务ID
-  src: ./src # 第一种为string时，会打包src对应目录下的代码上传到默认cos上。
-  # src:  # 第二种，部署src下的文件代码，并打包成zip上传到bucket上
-  #   src: ./src  # 本地需要打包的文件目录
-  #   bucket: bucket01 # bucket name，当前会默认在bucket name后增加 appid 后缀, 本例中为 bucket01-appid
-  #   exclude:   # 被排除的文件或目录
-  #     - .env
-  #     - node_modules
-  # src: # 第三种，在指定存储桶bucket中已经存在了object代码，直接部署
-  #   bucket: bucket01 # bucket name，当前会默认在bucket name后增加 appid 后缀, 本例中为 bucket01-appid
-  #   object: cos.zip  # bucket key 指定存储桶内的文件
+  src: # 第二种，部署src下的文件代码，并打包成zip上传到bucket上
+    src: ./src # 本地需要打包的文件目录
+    # bucket: bucket01 # bucket name，存储桶名称
+    # object: cos.zip # bucket key 指定存储桶内的文件
+    exclude: # 被排除的文件或目录
+      - .env
   layers:
     - name: layerName #  layer名称
       version: 1 #  版本

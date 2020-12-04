@@ -1,3 +1,10 @@
+## [0.1.1](https://github.com/serverless-components/tencent-laravel/compare/v0.1.0...v0.1.1) (2020-12-04)
+
+
+### Bug Fixes
+
+* update prepare inputs method ([#18](https://github.com/serverless-components/tencent-laravel/issues/18)) ([4d940f7](https://github.com/serverless-components/tencent-laravel/commit/4d940f7f9c4ed6716fe31a65fc374f632cd7bb95))
+
 # [0.1.0](https://github.com/serverless-components/tencent-laravel/compare/v0.0.8...v0.1.0) (2020-12-04)
 
 

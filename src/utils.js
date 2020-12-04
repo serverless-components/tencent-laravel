@@ -246,8 +246,25 @@ const prepareInputs = async (instance, credentials, inputs = {}) => {
   functionConf.needSetTraffic = inputs.traffic !== undefined && functionConf.lastVersion
 
   if (tempFunctionConf.environment) {
-    functionConf.environment = inputs.functionConf.environment
+    functionConf.environment = tempFunctionConf.environment
+    functionConf.environment.variables = functionConf.environment.variables || {}
+    functionConf.environment.variables.SERVERLESS = '1'
+    functionConf.environment.variables.VIEW_COMPILED_PATH = CONFIGS.envs.VIEW_COMPILED_PATH
+    functionConf.environment.variables.SESSION_DRIVER = CONFIGS.envs.SESSION_DRIVER
+    functionConf.environment.variables.LOG_CHANNEL = CONFIGS.envs.LOG_CHANNEL
+    functionConf.environment.variables.APP_STORAGE = CONFIGS.envs.APP_STORAGE
+  } else {
+    functionConf.environment = {
+      variables: {
+        SERVERLESS: '1',
+        VIEW_COMPILED_PATH: CONFIGS.envs.VIEW_COMPILED_PATH,
+        SESSION_DRIVER: CONFIGS.envs.SESSION_DRIVER,
+        LOG_CHANNEL: CONFIGS.envs.LOG_CHANNEL,
+        APP_STORAGE: CONFIGS.envs.APP_STORAGE
+      }
+    }
   }
+
   if (tempFunctionConf.vpcConfig) {
     functionConf.vpcConfig = inputs.functionConf.vpcConfig
   }

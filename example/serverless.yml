@@ -1,11 +1,12 @@
-component: laravel
-name: laravelDemo
 org: orgDemo
 app: appDemo
 stage: dev
+component: laravel
+name: laravelDemo
 
 inputs:
-  src: ./ # (optional) path to the source folder. default is a hello world app.
+  src:
+    src: ./
   region: ap-guangzhou
   runtime: Php7
   apigatewayConf:

@@ -1,3 +1,10 @@
+## [0.1.2](https://github.com/serverless-components/tencent-laravel/compare/v0.1.1...v0.1.2) (2020-12-15)
+
+
+### Bug Fixes
+
+* update deploy and remove flow ([#19](https://github.com/serverless-components/tencent-laravel/issues/19)) ([7bd779a](https://github.com/serverless-components/tencent-laravel/commit/7bd779af406ecb863160b6272ff2bb6395167364))
+
 ## [0.1.1](https://github.com/serverless-components/tencent-laravel/compare/v0.1.0...v0.1.1) (2020-12-04)
 
 

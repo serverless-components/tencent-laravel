@@ -1,4 +1,3 @@
-org: orgDemo
 app: appDemo
 stage: dev
 component: laravel
@@ -14,3 +13,4 @@ inputs:
       - http
       - https
     environment: release
+    isBase64Encoded: true

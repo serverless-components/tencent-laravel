@@ -72,11 +72,11 @@ laravel 组件支持 0 配置部署，也就是可以直接通过配置文件中
 ```yml
 # serverless.yml
 
-component: laravel
-name: laravelDemo
-org: orgDemo
 app: appDemo
 stage: dev
+
+component: laravel
+name: laravelDemo
 
 inputs:
   src:

@@ -17,3 +17,35 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/posts', function (Request $request) {
+    $input = $request->all();
+
+    return response()->json([
+        'title' => 'serverless',
+        'get' => $input
+    ]);
+});
+
+Route::post('/posts', function (Request $request) {
+    $input = $request->all();
+
+    return response()->json([
+        'title' => 'serverless',
+        'data' => $input
+    ]);
+});
+
+// upload file demo
+Route::post('/upload', function (Request $request) {
+    // field file in form data
+    if ($request->file) {
+        $upload = $request->file->store('upload');
+        $uploadFile = storage_path()."/app/".$upload;
+    }
+
+    return response()->json([
+        'title' => 'serverless',
+        'upload' => $uploadFile ?? null,
+    ]);
+});

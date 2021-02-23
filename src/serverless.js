@@ -1,6 +1,6 @@
 const { Component } = require('@serverless/core')
-const { Scf, Apigw, Cns, Cam } = require('tencent-component-toolkit')
-const { TypeError } = require('tencent-component-toolkit/src/utils/error')
+const { Scf, Apigw } = require('tencent-component-toolkit')
+const { ApiTypeError } = require('tencent-component-toolkit/lib/utils/error')
 const { uploadCodeToCos, getDefaultProtocol, prepareInputs, deepClone } = require('./utils')
 const CONFIGS = require('./config')
 
@@ -9,7 +9,7 @@ class ServerlessComponent extends Component {
     const { tmpSecrets } = this.credentials.tencent
 
     if (!tmpSecrets || !tmpSecrets.TmpSecretId) {
-      throw new TypeError(
+      throw new ApiTypeError(
         'CREDENTIAL',
         'Cannot get secretId/Key, your account could be sub-account and does not have the access to use SLS_QcsRole, please make sure the role exists first, then visit https://cloud.tencent.com/document/product/1154/43006, follow the instructions to bind the role to your account.'
       )
@@ -27,18 +27,6 @@ class ServerlessComponent extends Component {
   }
 
   async deployFunction(credentials, inputs, regionList) {
-    if (!inputs.role) {
-      try {
-        const camClient = new Cam(credentials)
-        const roleExist = await camClient.CheckSCFExcuteRole()
-        if (roleExist) {
-          inputs.role = 'QCS_SCFExcuteRole'
-        }
-      } catch (e) {
-        // no op
-      }
-    }
-
     const outputs = {}
     const appId = this.getAppId()
 
@@ -91,34 +79,6 @@ class ServerlessComponent extends Component {
     return outputs
   }
 
-  // try to add dns record
-  async tryToAddDnsRecord(credentials, customDomains) {
-    try {
-      const cns = new Cns(credentials)
-      for (let i = 0; i < customDomains.length; i++) {
-        const item = customDomains[i]
-        if (item.domainPrefix) {
-          await cns.deploy({
-            domain: item.subDomain.replace(`${item.domainPrefix}.`, ''),
-            records: [
-              {
-                subDomain: item.domainPrefix,
-                recordType: 'CNAME',
-                recordLine: '默认',
-                value: item.cname,
-                ttl: 600,
-                mx: 10,
-                status: 'enable'
-              }
-            ]
-          })
-        }
-      }
-    } catch (e) {
-      console.log('METHOD_tryToAddDnsRecord', e.message)
-    }
-  }
-
   async deployApigateway(credentials, inputs, regionList) {
     if (inputs.isDisabled) {
       return {}
@@ -156,10 +116,6 @@ class ServerlessComponent extends Component {
         }
 
         if (apigwOutput.customDomains) {
-          // TODO: need confirm add cns authentication
-          if (inputs.autoAddDnsRecord === true) {
-            // await this.tryToAddDnsRecord(credentials, apigwOutput.customDomains)
-          }
           outputs[curRegion].customDomains = apigwOutput.customDomains
         }
         this.state[curRegion] = {
@@ -266,13 +222,6 @@ class ServerlessComponent extends Component {
     }
 
     await Promise.all(removeHandlers)
-
-    if (this.state.cns) {
-      const cns = new Cns(credentials)
-      for (let i = 0; i < this.state.cns.length; i++) {
-        await cns.remove({ deleteList: this.state.cns[i].records })
-      }
-    }
 
     this.state = {}
   }

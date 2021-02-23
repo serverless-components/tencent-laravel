@@ -12,7 +12,6 @@ name: laravelDemo # 必选) 组件实例名称.
 
 inputs:
   region: ap-guangzhou # 云函数所在区域
-  entryFile: sls.js # 自定义 server 的入口文件名，默认为 sls.js，如果不想修改文件名为 sls.js 可以自定义
   src: # 部署src下的文件代码，并打包成zip上传到bucket上
     src: ./ # 本地需要打包的文件目录
     exclude: # 被排除的文件或目录
@@ -23,7 +22,7 @@ inputs:
   #   object: cos.zip  # bucket key 指定存储桶内的文件
   functionConf: # 函数配置相关
     name: webDemo # 云函数名称
-    runtime: Nodejs10.15 # 运行环境
+    runtime: Php7 # 运行环境
     timeout: 10 # 超时时间，单位秒
     eip: false # 是否固定出口IP
     memorySize: 128 # 内存大小，单位MB
@@ -99,16 +98,16 @@ inputs:
 
 函数配置
 
-| 参数名称    | 是否必选 | 类型                        |    默认值     | 描述                                                                            |
-| ----------- | :------: | :-------------------------- | :-----------: | :------------------------------------------------------------------------------ |
-| runtime     |    否    | string                      | `Nodejs10.15` | 执行环境, 支持: Nodejs6.10, Nodejs8.9, Nodejs10.15, Nodejs12.16                 |
-| timeout     |    否    | number                      |      `3`      | 函数最长执行时间，单位为秒，可选值范围 1-900 秒，默认为 3 秒                    |
-| memorySize  |    否    | number                      |     `128`     | 函数运行时内存大小，默认为 128M，可选范围 64、128MB-3072MB，并且以 128MB 为阶梯 |
-| environment |    否    | [Environment](#Environment) |               | 函数的环境变量                                                                  |
-| vpc         |    否    | [Vpc](#Vpc)                 |               | 函数的 VPC 配置                                                                 |
-| layers      |    否    | [Layer](#Layer)[]           |               | 云函数绑定的 layer                                                              |
-| tags        |    否    | object                      |               | 云函数标签，`key-value` 形式配置                                                |
-| eip         |    否    | boolean                     |    `false`    | 是否固定出口 IP                                                                 |
+| 参数名称    | 是否必选 | 类型                        | 默认值  | 描述                                                                            |
+| ----------- | :------: | :-------------------------- | :-----: | :------------------------------------------------------------------------------ |
+| runtime     |    否    | string                      | `Php7`  | 执行环境, 支持: Php7，Php5                                                      |
+| timeout     |    否    | number                      |   `3`   | 函数最长执行时间，单位为秒，可选值范围 1-900 秒，默认为 3 秒                    |
+| memorySize  |    否    | number                      |  `128`  | 函数运行时内存大小，默认为 128M，可选范围 64、128MB-3072MB，并且以 128MB 为阶梯 |
+| environment |    否    | [Environment](#Environment) |         | 函数的环境变量                                                                  |
+| vpc         |    否    | [Vpc](#Vpc)                 |         | 函数的 VPC 配置                                                                 |
+| layers      |    否    | [Layer](#Layer)[]           |         | 云函数绑定的 layer                                                              |
+| tags        |    否    | object                      |         | 云函数标签，`key-value` 形式配置                                                |
+| eip         |    否    | boolean                     | `false` | 是否固定出口 IP                                                                 |
 
 > 此处只是列举，`faas` 参数支持 [scf][scf-config] 组件的所有基础配置（ `events` 除外）
 

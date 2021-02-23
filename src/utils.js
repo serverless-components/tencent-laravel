@@ -201,9 +201,7 @@ const prepareInputs = async (instance, credentials, inputs = {}) => {
       object: inputs.srcOriginal && inputs.srcOriginal.object
     },
     name:
-      ensureString(inputs.functionName, { isOptional: true }) ||
-      stateFunctionName ||
-      getDefaultFunctionName(),
+      tempFunctionConf.name || inputs.functionName || stateFunctionName || getDefaultFunctionName(),
     region: regionList,
     role: ensureString(tempFunctionConf.role ? tempFunctionConf.role : inputs.role, {
       default: ''
@@ -234,8 +232,8 @@ const prepareInputs = async (instance, credentials, inputs = {}) => {
     publish: inputs.publish,
     traffic: inputs.traffic,
     lastVersion: instance.state.lastVersion,
-    timeout: tempFunctionConf.timeout ? tempFunctionConf.timeout : CONFIGS.timeout,
-    memorySize: tempFunctionConf.memorySize ? tempFunctionConf.memorySize : CONFIGS.memorySize,
+    timeout: tempFunctionConf.timeout || CONFIGS.timeout,
+    memorySize: tempFunctionConf.memorySize || CONFIGS.memorySize,
     tags: ensureObject(tempFunctionConf.tags ? tempFunctionConf.tags : inputs.tags, {
       default: null
     })
@@ -270,14 +268,14 @@ const prepareInputs = async (instance, credentials, inputs = {}) => {
     ? inputs.apigwConfig
     : {}
   const apigatewayConf = Object.assign(tempApigwConf, {
-    serviceId: inputs.serviceId || tempApigwConf.serviceId || tempApigwConf.id,
+    serviceId: tempApigwConf.serviceId || tempApigwConf.id || inputs.serviceId,
     region: regionList,
     isDisabled: tempApigwConf.isDisabled === true,
     fromClientRemark: fromClientRemark,
     serviceName:
-      inputs.serviceName ||
       tempApigwConf.serviceName ||
       tempApigwConf.name ||
+      inputs.serviceName ||
       getDefaultServiceName(instance),
     serviceDesc:
       tempApigwConf.serviceDesc ||
@@ -291,7 +289,7 @@ const prepareInputs = async (instance, credentials, inputs = {}) => {
     apigatewayConf.endpoints = [
       {
         path: tempApigwConf.path || '/',
-        enableCORS: tempApigwConf.enableCORS,
+        enableCORS: tempApigwConf.enableCORS || tempApigwConf.cors,
         serviceTimeout: tempApigwConf.serviceTimeout || tempApigwConf.timeout,
         method: 'ANY',
         apiName: tempApigwConf.apiName || 'index',

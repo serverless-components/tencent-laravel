@@ -5,7 +5,7 @@ const ensureObject = require('type/object/ensure')
 const ensureIterable = require('type/iterable/ensure')
 const ensureString = require('type/string/ensure')
 const download = require('download')
-const { TypeError } = require('tencent-component-toolkit/src/utils/error')
+const { ApiTypeError } = require('tencent-component-toolkit/lib/utils/error')
 const CONFIGS = require('./config')
 
 /*
@@ -57,13 +57,13 @@ const getDefaultServiceDescription = () => {
 
 const validateTraffic = (num) => {
   if (getType(num) !== 'Number') {
-    throw new TypeError(
+    throw new ApiTypeError(
       `PARAMETER_${CONFIGS.compName.toUpperCase()}_TRAFFIC`,
       'traffic must be a number'
     )
   }
   if (num < 0 || num > 1) {
-    throw new TypeError(
+    throw new ApiTypeError(
       `PARAMETER_${CONFIGS.compName.toUpperCase()}_TRAFFIC`,
       'traffic must be a number between 0 and 1'
     )
@@ -87,7 +87,7 @@ const getCodeZipPath = async (instance, inputs) => {
         filename: `${filename}.zip`
       })
     } catch (e) {
-      throw new TypeError(`DOWNLOAD_TEMPLATE`, 'Download default template failed.')
+      throw new ApiTypeError(`DOWNLOAD_TEMPLATE`, 'Download default template failed.')
     }
     zipPath = `${downloadPath}/${filename}.zip`
   } else {
@@ -236,7 +236,7 @@ const prepareInputs = async (instance, credentials, inputs = {}) => {
     lastVersion: instance.state.lastVersion,
     timeout: tempFunctionConf.timeout ? tempFunctionConf.timeout : CONFIGS.timeout,
     memorySize: tempFunctionConf.memorySize ? tempFunctionConf.memorySize : CONFIGS.memorySize,
-    tags: ensureObject(tempFunctionConf.tags ? tempFunctionConf.tags : inputs.tag, {
+    tags: ensureObject(tempFunctionConf.tags ? tempFunctionConf.tags : inputs.tags, {
       default: null
     })
   })
@@ -259,8 +259,8 @@ const prepareInputs = async (instance, credentials, inputs = {}) => {
     }
   }
 
-  if (tempFunctionConf.vpcConfig) {
-    functionConf.vpcConfig = tempFunctionConf.vpcConfig
+  if (tempFunctionConf.vpcConfig || tempFunctionConf.vpc) {
+    functionConf.vpcConfig = tempFunctionConf.vpcConfig || tempFunctionConf.vpc
   }
 
   // 对apigw inputs进行标准化
@@ -270,12 +270,19 @@ const prepareInputs = async (instance, credentials, inputs = {}) => {
     ? inputs.apigwConfig
     : {}
   const apigatewayConf = Object.assign(tempApigwConf, {
-    serviceId: inputs.serviceId || tempApigwConf.serviceId,
+    serviceId: inputs.serviceId || tempApigwConf.serviceId || tempApigwConf.id,
     region: regionList,
     isDisabled: tempApigwConf.isDisabled === true,
     fromClientRemark: fromClientRemark,
-    serviceName: inputs.serviceName || tempApigwConf.serviceName || getDefaultServiceName(instance),
-    serviceDesc: tempApigwConf.serviceDesc || getDefaultServiceDescription(instance),
+    serviceName:
+      inputs.serviceName ||
+      tempApigwConf.serviceName ||
+      tempApigwConf.name ||
+      getDefaultServiceName(instance),
+    serviceDesc:
+      tempApigwConf.serviceDesc ||
+      tempApigwConf.description ||
+      getDefaultServiceDescription(instance),
     protocols: tempApigwConf.protocols || ['http'],
     environment: tempApigwConf.environment ? tempApigwConf.environment : 'release',
     customDomains: tempApigwConf.customDomains || []
@@ -285,7 +292,7 @@ const prepareInputs = async (instance, credentials, inputs = {}) => {
       {
         path: tempApigwConf.path || '/',
         enableCORS: tempApigwConf.enableCORS,
-        serviceTimeout: tempApigwConf.serviceTimeout,
+        serviceTimeout: tempApigwConf.serviceTimeout || tempApigwConf.timeout,
         method: 'ANY',
         apiName: tempApigwConf.apiName || 'index',
         function: {

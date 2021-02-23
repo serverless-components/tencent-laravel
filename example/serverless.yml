@@ -13,4 +13,3 @@ inputs:
       - http
       - https
     environment: release
-    isBase64Encoded: true

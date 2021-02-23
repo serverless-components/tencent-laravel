@@ -295,6 +295,7 @@ const prepareInputs = async (instance, credentials, inputs = {}) => {
         serviceTimeout: tempApigwConf.serviceTimeout || tempApigwConf.timeout,
         method: 'ANY',
         apiName: tempApigwConf.apiName || 'index',
+        isBase64Encoded: tempApigwConf.isBase64Encoded,
         function: {
           isIntegratedResponse: true,
           functionName: functionConf.name,

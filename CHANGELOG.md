@@ -1,3 +1,10 @@
+## [0.2.1](https://github.com/serverless-components/tencent-laravel/compare/v0.2.0...v0.2.1) (2021-02-23)
+
+
+### Bug Fixes
+
+* support base64 encode ([db98f6b](https://github.com/serverless-components/tencent-laravel/commit/db98f6ba368fabe898d42020b153eb88e9f30efd))
+
 # [0.2.0](https://github.com/serverless-components/tencent-laravel/compare/v0.1.2...v0.2.0) (2021-02-23)
 
 

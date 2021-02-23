@@ -1,3 +1,10 @@
+# [0.2.0](https://github.com/serverless-components/tencent-laravel/compare/v0.1.2...v0.2.0) (2021-02-23)
+
+
+### Features
+
+* support post form data ([ea1af31](https://github.com/serverless-components/tencent-laravel/commit/ea1af31739596d818b99d7206c84180662dd24da))
+
 ## [0.1.2](https://github.com/serverless-components/tencent-laravel/compare/v0.1.1...v0.1.2) (2020-12-15)
 
 
